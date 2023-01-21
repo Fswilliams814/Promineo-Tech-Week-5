@@ -91,6 +91,7 @@ class Menu {
         0) back
         1) create appointment
         2) delete appointment
+        3) add symptoms
         ----------------
         ${patientInfo}
         `);
@@ -121,9 +122,9 @@ class Menu {
         let description = 'Patient: ' + this.selectedPatient.name + '\n'; // this will combine the selected patient name in a string and create a new line
         //now we are going to loop through the patients and build the list of names of team players from which the user is choosing from
         for(let i = 0; i < this.selectedPatient.appointments.length; i++){
-            description += i + ') Appointment with ' + this.selectedPatient.appointments[i].doctorName + ' at ' 
+            description += (i+1) + ') Appointment with ' + this.selectedPatient.appointments[i].doctorName + ' at ' 
             + this.selectedPatient.appointments[i].time + ' on ' + this.selectedPatient.appointments[i].date
-            + '\n';
+            + '\n' ;
         }
 
         let selection = this.showPatientMenuOptions(description); // this method has not been created yet (top down programming)
@@ -135,13 +136,27 @@ class Menu {
                 break;
             case '2':
                 this.deleteAppointment();// delete appointment
-                break
+                break;
+            case '3':
+                this.addSymptoms();
+                
         }
 
        }
 
     }
 
+
+    addSymptoms(){
+        let symptoms = prompt(`Enter the symptoms reported by patient:`)
+        for(let i = 0; i < this.selectedPatient.appointments.length; i++){
+           let description = 'Patient: ' + this.selectedPatient.name + '\n' + (i+1) + ') Appointment with ' + this.selectedPatient.appointments[i].doctorName + ' at ' 
+            + this.selectedPatient.appointments[i].time + ' on ' + this.selectedPatient.appointments[i].date
+            + '\n' + 'Symptoms: ' + symptoms;
+            alert(this.showPatientMenuOptions(description))
+        }
+        
+    }
 
     deletePatient(){
         let index = prompt('Enter the index of the patient you wish to delete:');
@@ -151,9 +166,9 @@ class Menu {
     }
 
     addAppointment(){
-        let doctorName = prompt(`Enter Doctor last name (no symbols):`);
-        let date = prompt(`Enter next appointment date (no symbols)`);
-        let time = prompt(`Enter next appintment time (no symbols)`);
+        let doctorName = prompt(`Enter doctor name:`);
+        let date = prompt(`Enter next appointment date:`);
+        let time = prompt(`Enter next appintment time:`);
         this.selectedPatient.appointments.push(new Appointment(doctorName, date, time));
     }
 
